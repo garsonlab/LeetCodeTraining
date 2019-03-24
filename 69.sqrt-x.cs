@@ -38,8 +38,86 @@
  */
 public class Solution {
     public int MySqrt(int x) {
-        
-        return (int) Math.Sqrt(x);
+        if (x < 100)
+        {
+            for (int i = 1; i <= 10; i++)
+            {
+                if (i * i > x)
+                {
+                    return i - 1;
+                }
+            }
+        }
+
+        int len = 1;
+        int dig = 10;
+        while (x/dig >= 10)
+        {
+            dig *= 10;
+            len++;
+        }
+
+        if (x >= 10)
+            len++;
+
+        int result = 0;
+        int add = 0;
+        if (len%2 > 0)
+        {
+            int s = x / dig;
+            for (int i = 1; i <= 4; i++)
+            {
+                if (i * i > s)
+                {
+                    result = i - 1;
+                    add = s - result * result;
+                    break;
+                }
+            }
+
+            dig = dig / 100;
+        }
+        else
+        {
+            int s = x / (dig/10);
+            for (int i = 1; i <= 10; i++)
+            {
+                if (i*i > s)
+                {
+                    result = i - 1;
+                    add = s - result * result;
+                    break;
+                }
+            }
+
+            dig = dig / 1000;
+        }
+
+        while (dig > 0)
+        {
+            int s = (x / dig) % 100;
+            s = add * 100 + s;
+
+            int tem = 20 * result;
+            for (int i = 1; i <= 10; i++)
+            {
+                if ((tem + i) * i > s)
+                {
+                    result = result * 10 + i - 1;
+                    add = s - (tem + i - 1) * (i - 1);
+                    break;
+                }
+            }
+
+            dig = dig / 100;
+        }
+
+        return result;
     }
 }
+
+// √ Accepted
+//   √ 1017/1017 cases passed (40 ms)
+//   √ Your runtime beats 100 % of csharp submissions
+//   √ Your memory usage beats 47.54 % of csharp submissions (13.1 MB)
 
