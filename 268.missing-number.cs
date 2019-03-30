@@ -39,16 +39,15 @@ public class Solution {
         {
             if (nums[i] != i && nums[i] != len)
             {
-                int idx = i;
+                int idx = nums[i];
                 while (nums[idx] != idx)
                 {
                     int n = nums[idx];
-                    int tem = nums[n];
-                    nums[n] = n;
-                    if (tem != len)
-                        idx = tem;
-                    else
+                    nums[idx] = idx;
+                    if (n == len)
                         break;
+                    else
+                        idx = n;
                 }
             }
         }
@@ -59,7 +58,15 @@ public class Solution {
                 return i;
         }
 
-        return 0;
+        return nums.Length;
     }
 }
+
+
+// √ Accepted
+//   √ 122/122 cases passed (112 ms)
+//   √ Your runtime beats 75.5 % of csharp submissions
+//   √ Your memory usage beats 80.36 % of csharp submissions (27.3 MB)
+
+
 
