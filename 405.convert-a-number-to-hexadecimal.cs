@@ -51,15 +51,41 @@
  */
 public class Solution {
     public string ToHex(int num) {
-        if (num == 0) return "0";
-        string hex = "0123456789abcdef", ans = "";
-        while(num > 0){
-            ans = hex[num & 0xf] + ans;
-            num >>= 4; 
+        if (num == 0)
+            return "0";
+
+        char[] chars = new[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
+        string r = "";
+        if (num > 0)
+        {
+            while (num > 0)
+            {
+                int x = num % 16;
+                r = chars[x] + r;
+                num = num / 16;
+            }
+        }
+        else
+        {
+            num = -num - 1;
+            for (int i = 0; i < 8; i++)
+            {
+                int x = num % 16;
+                num = num / 16;
+
+                x = x ^ 0xf;
+                r = chars[x] + r;
+            }
         }
 
-
-        return ans;
+        return r;
     }
 }
+
+
+// √ Accepted
+//   √ 100/100 cases passed (96 ms)
+//   √ Your runtime beats 26.42 % of csharp submissions
+//   √ Your memory usage beats 33.33 % of csharp submissions (20.5 MB)
 
