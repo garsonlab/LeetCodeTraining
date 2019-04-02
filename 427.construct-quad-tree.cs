@@ -102,12 +102,12 @@ public class Solution {
             }
             else
             {
-                node.val = tl.val && tr.val && bl.val && br.val;
-                node.isLeaf = true;
-                node.topLeft = tl;
-                node.topRight = tr;
-                node.bottomLeft = bl;
-                node.bottomRight = br;
+                node.val = tl.val || tr.val || bl.val || br.val;
+                node.isLeaf = false;
+                node.topLeft = bl;
+                node.topRight = tl;
+                node.bottomLeft = br;
+                node.bottomRight = tr;
                 canMerge = false;
             }
         }
@@ -116,4 +116,9 @@ public class Solution {
     }
 
 }
+
+// √ Accepted
+//   √ 20/20 cases passed (188 ms)
+//   √ Your runtime beats 53.16 % of csharp submissions
+//   √ Your memory usage beats 12.5 % of csharp submissions (34.2 MB)
 
