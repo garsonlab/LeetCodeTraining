@@ -42,33 +42,27 @@
 public class Solution {
     public int MaxProfit(int[] prices) {
         if (prices.Length <= 1)
-                return 0;
-
-        int min = int.MaxValue;
-        int max = int.MinValue;
-
-        int temMin = prices[0];
-        int temMax = prices[0];
-        for (int i = 0; i < prices.Length; i++)
+            return 0;
+        int ret = 0;
+        int min = prices[0];
+        for (int i = 1; i < prices.Length; i++)
         {
-            if (prices[i] >= temMax)
+            if (prices[i] > min)
             {
-                temMax = prices[i];
+                ret = Math.Max(prices[i] - min, ret);
             }
             else
             {
-                if (temMin < min)
-                    min = temMin;
-
-                if (temMax > max)
-                    max = temMax;
-
-                temMin = prices[i];
-                temMax = prices[i];
+                min = prices[i];
             }
         }
 
-        return max - min;
+        return ret;
     }
 }
+
+// √ Accepted
+//   √ 200/200 cases passed (96 ms)
+//   √ Your runtime beats 72.8 % of csharp submissions
+//   √ Your memory usage beats 70.09 % of csharp submissions (23.1 MB)
 
