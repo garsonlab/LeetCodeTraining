@@ -53,7 +53,33 @@
  */
 public class Solution {
     public TreeNode SortedListToBST(ListNode head) {
-        
+        List<int> list = new List<int>();
+
+        ListNode cur = head;
+        while (cur != null)
+        {
+            list.Add(cur.val);
+            cur = cur.next;
+        }
+
+        return CreateBSTN(list, 0, list.Count - 1);
+    }
+
+    private TreeNode CreateBSTN(List<int> list, int l, int r)
+    {
+        if (l > r)
+            return null;
+
+        int mid = (l + r) / 2;
+        TreeNode node = new TreeNode(list[mid]);
+        node.left = CreateBSTN(list, l, mid - 1);
+        node.right = CreateBSTN(list, mid + 1, r);
+        return node;
     }
 }
+
+// √ Accepted
+//   √ 32/32 cases passed (116 ms)
+//   √ Your runtime beats 51.93 % of csharp submissions
+//   √ Your memory usage beats 44.44 % of csharp submissions (25.3 MB)
 
