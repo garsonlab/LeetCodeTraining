@@ -52,7 +52,27 @@
  */
 public class Solution {
     public bool WordBreak(string s, IList<string> wordDict) {
-        
+        int len = s.Length;
+        bool[] dp = new bool[len+1];
+        dp[0] = true;
+        for (int i = 1; i <= len; i++)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                if (dp[j] && wordDict.Contains(s.Substring(j, i-j)))
+                {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+
+        return dp[len];
     }
 }
+
+// √ Accepted
+//   √ 36/36 cases passed (104 ms)
+//   √ Your runtime beats 92.5 % of csharp submissions
+//   √ Your memory usage beats 73.68 % of csharp submissions (25.5 MB)
 
