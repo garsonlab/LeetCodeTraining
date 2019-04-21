@@ -54,7 +54,56 @@
  * 
  */
 public class Solution {
-    public int[] FindOrder(int numCourses, int[][] prerequisites) {
+    public int[] FindOrder(int numCourses, int[][] prerequisites)
+    {
+        List<int> ret = new List<int>();
+        int[] courses = new int[numCourses];
+
+        Queue<int> queue = new Queue<int>();
+        List<int>[] cs = new List<int>[numCourses];
+
+        foreach (var prerequisite in prerequisites)
+        {
+            courses[prerequisite[0]]++;
+            if(cs[prerequisite[1]] == null)
+                cs[prerequisite[1]]= new List<int>();
+            cs[prerequisite[1]].Add(prerequisite[0]);
+        }
+
+        for (int i = 0; i < courses.Length; i++)
+        {
+            if (courses[i] < 1)
+            {
+                queue.Enqueue(i);
+                ret.Add(i);
+                courses[i] = 0;
+                numCourses--;
+            }
+        }
+
+        while (queue.Count > 0)
+        {
+            var t = queue.Dequeue();
+            if(cs[t] == null)
+                continue;
+
+            foreach (var i in cs[t])
+            {
+                courses[i]--;
+                if (courses[i] <= 0)
+                {
+                    queue.Enqueue(i);
+                    ret.Add(i);
+                    numCourses--;
+                }
+            }
+        }
+
+        return numCourses == 0 ? ret.ToArray() : new int[0];
+    }
+
+
+    public int[] FindOrder22(int numCourses, int[][] prerequisites) {
         List<int> ret = new List<int>();
         List<int>[] dics = new List<int>[numCourses];
         foreach (var prerequisite in prerequisites)
@@ -115,4 +164,9 @@ public class Solution {
         return ret.ToArray();
     }
 }
+
+// √ Accepted
+//   √ 44/44 cases passed (272 ms)
+//   √ Your runtime beats 99.17 % of csharp submissions
+//   √ Your memory usage beats 100 % of csharp submissions (31.9 MB)
 
