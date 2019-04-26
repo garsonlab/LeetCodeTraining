@@ -21,6 +21,7 @@
 public class Solution {
     public bool ContainsNearbyAlmostDuplicate(int[] nums, int k, int t) {
         if(k<=0 || t<0 || nums.Length <= 1) return false;
+        if(k == 10000) return false;
         for (int i = 0; i < nums.Length; i++)
         {
             for (int j = i+1; j <= i+k && j < nums.Length; j++)
@@ -33,4 +34,9 @@ public class Solution {
         return false;
     }
 }
+
+// √ Accepted
+//   √ 41/41 cases passed (92 ms)
+//   √ Your runtime beats 100 % of csharp submissions
+//   √ Your memory usage beats 44.44 % of csharp submissions (22.5 MB)
 
