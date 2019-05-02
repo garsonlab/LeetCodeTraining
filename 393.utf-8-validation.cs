@@ -45,25 +45,67 @@ public class Solution {
         {
             if (count == 0)
             {
-                if ((val >> 5) == 6) count = 1;
-                else if ((val >> 4) == 14) count = 2;
-                else if ((val >> 3) == 30) count = 3;
-                else if ((val >> 7) > 0) return false;
-                continue;
+                if ((val >> 5) == 6)
+                {
+                    count = 1;
+                }
+                else if ((val >> 4) == 14)
+                {
+                    count = 2;
+                }
+                else if ((val >> 3) == 30)
+                {
+                    count = 3;
+                }
+                else if ((val >> 7) > 0)
+                {	// the most significant bit cannot be 0
+                    return false;
+                }
             }
-            if ((val >> 6) != 2) return false;
-            count--;
+            else
+            {
+                if ((val >> 6) != 2)
+                {    // checking the leading bits in each byte
+                    return false;
+                }
+                --count;
+            }
         }
-        return true;
+
+        return count == 0;
     }
 
-    private int GetLen(int x)
+    public bool ValidUtf8_b(int[] data)
     {
-        if ((x & 0xf8) == 0xf0) return 4;
-        else if ((x & 0xf0) == 0xe0) return 3;
-        else if ((x & 0xe0) == 0xc0) return 2;
-        else if ((x & 0x80) == 0x00) return 1;
-        else return -1;
+        int nBytes = 0;
+        for (int i = 0; i < data.Length; i++)
+        {
+            if (nBytes == 0)
+            {
+                while ((data[i] & 0x80) > 0)//与操作之后不为0，说明首位为1
+                {
+                    data[i] <<= 1;
+                    nBytes++;
+                }
+
+                if(nBytes == 0)
+                    return true;
+
+                if (nBytes < 2 || nBytes > 4)//因为UTF8编码单字符最多不超过4个字节,1字节第一位不为1
+                    return false;
+                nBytes--;
+            }
+            else
+            {
+                if ((data[i] & 0xc0) != 0x80)
+                    return false;
+                nBytes--;
+                if(nBytes == 0)
+                    return true;
+            }
+        }
+
+        return nBytes == 0;
     }
 
     public bool ValidUtf8_a(int[] data) {
@@ -104,4 +146,9 @@ public class Solution {
         return true;
     }
 }
+
+// √ Accepted
+//   √ 49/49 cases passed (124 ms)
+//   √ Your runtime beats 34.67 % of csharp submissions
+//   √ Your memory usage beats 100 % of csharp submissions (25.1 MB)
 
