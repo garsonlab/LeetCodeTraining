@@ -20,7 +20,44 @@ Note:
 S will consist of lowercase letters and have length in range [1, 500].
  */
 public class Solution {
-    public string ReorganizeString(string S) {
+    public string ReorganizeString(string S)
+    {
+        int len = S.Length;
+        int[] mp = new int[26];
+        List<int[]> list = new List<int[]>();
+
+        for (int i = 0; i < len; i++)
+            mp[S[i] - 'a']++;
+
+        for (int i = 0; i < 26; i++)
+        {
+            if (mp[i] > (len + 1) / 2)
+                return "";
+
+            if (mp[i] > 0)
+                list.Add(new[] { mp[i], i + 'a' });
+        }
+        list.Sort((a, b) => { return a[0] - b[0]; });
+        char[] ans = new char[len];
+
+        int p = 1;
+        foreach (var t in list)
+        {
+            char ch = (char)t[1];
+            int ct = t[0];
+
+            while (ct-- > 0)
+            {
+                if (p >= len)
+                    p = 0;
+                ans[p] = ch;
+                p += 2;
+            }
+        }
+        return new string(ans);
+    }
+
+    public string ReorganizeString_Err(string S) {
         int len = S.Length;
         StringBuilder ans = new StringBuilder();
         int[] mp = new int[26];
@@ -73,4 +110,9 @@ public class Solution {
         return ans.ToString();
     }
 }
+
+// √ Accepted
+//   √ 62/62 cases passed (96 ms)
+//   √ Your runtime beats 40 % of csharp submissions
+//   √ Your memory usage beats 42.86 % of csharp submissions (20.9 MB)
 
