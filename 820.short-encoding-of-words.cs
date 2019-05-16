@@ -24,7 +24,24 @@ Note:
 Each word has only lowercase letters.
  */
 public class Solution {
-    public int MinimumLengthEncoding(string[] words) {
+    public int MinimumLengthEncoding(string[] words)
+    {
+        if (words.Length <= 0)
+            return 1;
+
+        Array.Sort(words, (a, b) => { return b.Length - a.Length; });        
+        StringBuilder sb = new StringBuilder();
+        foreach(string i in words) {
+            if(sb.ToString().Contains(i+"#"))
+                continue;
+            else
+                sb.Append(i+"#");
+        }
+        return sb.Length;
+    }
+
+
+    public int MinimumLengthEncoding_timeout(string[] words) {
         if (words == null || words.Length == 0)
         {
             return 1;
@@ -60,4 +77,9 @@ public class Solution {
         return result;
     }
 }
+//最合适的是字典树
+// √ Accepted
+//   √ 30/30 cases passed (740 ms)
+//   √ Your runtime beats 10.53 % of csharp submissions
+//   √ Your memory usage beats 29.41 % of csharp submissions (43.2 MB)
 
