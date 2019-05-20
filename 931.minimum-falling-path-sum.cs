@@ -28,7 +28,41 @@ Note:
  */
 public class Solution {
     public int MinFallingPathSum(int[][] A) {
-        
+        int m = A.Length;
+        if (m == 0)
+            return 0;
+        int n = A[0].Length;
+
+        int[] dp = new int[n];
+        int[] dp2 = new int[n];
+        Array.Copy(A[0], dp, n);
+
+        for (int i = 1; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                int pre = j > 0 ? dp[j - 1] + A[i][j] : int.MaxValue;
+                int up = dp[j] + A[i][j];
+                int next = j < n - 1 ? dp[j + 1] + A[i][j] : int.MaxValue;
+
+                dp2[j] = Math.Min(pre, up);
+                dp2[j] = Math.Min(dp2[j], next);
+            }
+            Array.Copy(dp2, dp, n);
+        }
+
+        int res = int.MaxValue;
+        for (int i = 0; i < n; i++)
+        {
+            res = Math.Min(res, dp[i]);
+        }
+
+        return res;
     }
 }
+
+// √ Accepted
+//   √ 46/46 cases passed (124 ms)
+//   √ Your runtime beats 23.15 % of csharp submissions
+//   √ Your memory usage beats 46.59 % of csharp submissions (24.4 MB)
 
