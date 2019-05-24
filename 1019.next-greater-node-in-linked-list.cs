@@ -42,7 +42,33 @@ The given list has length in the range [0, 10000].
  */
 public class Solution {
     public int[] NextLargerNodes(ListNode head) {
-        
+        List<int> res = new List<int>();
+        Stack<int> mem = new Stack<int>();
+        int i = 0;
+
+        while (head != null)
+        {
+            while (mem.Count > 0 && head.val > res[mem.Peek()])
+            {
+                res[mem.Pop()] = head.val;
+            }
+
+            res.Add(head.val);
+            mem.Push(i++);
+            head = head.next;
+        }
+
+        while (mem.Count > 0)
+        {
+            res[mem.Pop()] = 0;
+        }
+
+        return res.ToArray();
     }
 }
+
+// √ Accepted
+//   √ 76/76 cases passed (392 ms)
+//   √ Your runtime beats 27.91 % of csharp submissions
+//   √ Your memory usage beats 14.38 % of csharp submissions (46.9 MB)
 
